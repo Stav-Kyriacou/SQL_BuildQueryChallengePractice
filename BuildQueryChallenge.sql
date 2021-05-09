@@ -21,20 +21,20 @@
 --FOREIGN KEY (StudentID) REFERENCES Student
 --FOREIGN KEY (Year, Semester) REFERENCES SubjectOffering
 
-IF OBJECT_ID('SUBJECT_OFFERING') IS NOT NULL
-    DROP TABLE SUBJECT_OFFERING;
-
 IF OBJECT_ID('ENROLMENT') IS NOT NULL
     DROP TABLE ENROLMENT;
 
-IF OBJECT_ID('SUBJECT') IS NOT NULL
-    DROP TABLE SUBJECT;
+IF OBJECT_ID('SUBJECT_OFFERING') IS NOT NULL
+    DROP TABLE SUBJECT_OFFERING;
 
 IF OBJECT_ID('TEACHER') IS NOT NULL
     DROP TABLE TEACHER;
 
 IF OBJECT_ID('STUDENT') IS NOT NULL
     DROP TABLE STUDENT;
+
+IF OBJECT_ID('SUBJECT') IS NOT NULL
+    DROP TABLE SUBJECT;
 
 
 CREATE TABLE SUBJECT(
@@ -62,7 +62,7 @@ CREATE TABLE SUBJECT_OFFERING(
     SubjCode        NVARCHAR(100)
 ,   Year            INT CHECK (LEN(Year) = 4)
 ,   Semester        INT CHECK (Semester IN (1, 2))
-,   Fee             MONEY CHECK (Fee > 0) NOT NULL
+,   Fee             INT CHECK (Fee > 0) NOT NULL
 ,   StaffID         INT 
 ,   PRIMARY KEY (SubjCode, Year, Semester)
 ,   FOREIGN KEY (SubjCode) REFERENCES SUBJECT(SubjCode)
@@ -81,3 +81,46 @@ CREATE TABLE ENROLMENT(
 ,   FOREIGN KEY (SubjCode, Year, Semester) REFERENCES SUBJECT_OFFERING(SubjCode, Year, Semester)
 );
 
+INSERT INTO SUBJECT 
+(SubjCode,      Description) VALUES
+('ICTWEB425',   'Apply SQL to extract & manipulate data'),
+('ICTDBS403',   'Create Basic Databases'),
+('ICTDBS502',   'Design a Database');
+
+INSERT INTO TEACHER 
+(StaffID,   Surname,    GivenName) VALUES
+(98776655,  'Starr',    'Ringo'),
+(87665544,  'Lennon',   'John'),
+(76554433,  'McCartney',    'Paul');
+
+INSERT INTO STUDENT 
+(StudentID,     Surname,    GivenName,  Gender) VALUES
+('s12233445',	'Morrison',	'Scott',	'M'),
+('s23344556',	'Gillard',	'Julia',	'F'),
+('s34455667',	'Whitlam',	'Gough',	'M'),
+('s101610510',  'Kyriacou', 'Stavros',  'M');
+
+INSERT INTO SUBJECT_OFFERING 
+(SubjCode,      Year,   Semester,   Fee,    StaffID) VALUES
+('ICTWEB425',	2020,	1,	        200,	98776655),
+('ICTWEB425',	2021,	1,	        225,	98776655),
+('ICTDBS403',	2021,	1,	        200,	87665544),
+('ICTDBS403',	2021,	2,	        200,	76554433),
+('ICTDBS502',	2021,	2,	        225,	87665544);
+
+INSERT INTO ENROLMENT 
+(StudentID,     SubjCode,       Year,   Semester,   Grade,  DateEnrolled) VALUES
+('s12233445',	'ICTWEB425',	2020,	1,	        'D',	'2019-02-25'),
+('s23344556',	'ICTWEB425',	2020,	1,	        'P',	'2019-02-15'),
+('s12233445',	'ICTWEB425',	2021,	1,	        'C',	'2020-01-29'),
+('s23344556',	'ICTWEB425',	2021,	1,	        'HD',	'2020-02-26'),
+('s34455667',	'ICTWEB425',	2020,	1,	        'P',	'2020-01-28'),
+('s12233445',	'ICTDBS403',	2021,	1,	        'C',	'2020-02-08'),
+('s23344556',	'ICTDBS403',	2021,	2,	        NULL,   '2021-02-21'),
+('s34455667',	'ICTDBS403',	2021,	2,	        NULL    '2021-03-03'),
+('s23344556',	'ICTDBS502',	2021,	2,	        'P',	'2019-07-01'),
+('s34455667',	'ICTDBS502',	2021,	2,	        'N',    '2019-07-13');
+
+SELECT * FROM STUDENT;
+SELECT * FROM SUBJECT_OFFERING;
+SELECT * FROM ENROLMENT;
