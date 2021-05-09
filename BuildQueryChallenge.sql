@@ -108,6 +108,10 @@ INSERT INTO SUBJECT_OFFERING
 ('ICTDBS403',	2021,	2,	        200,	76554433),
 ('ICTDBS502',	2021,	2,	        225,	87665544);
 
+
+--check correct order of drop/create/insert statement depending on foreign key dependancy order
+--make sure date times are valid e.g 2019-02-31 is not a valid date. make sure to use '' marks
+--make sure composite foreign key values exist in the primary key colums
 INSERT INTO ENROLMENT 
 (StudentID,     SubjCode,       Year,   Semester,   Grade,  DateEnrolled) VALUES
 ('s12233445',	'ICTWEB425',	2020,	1,	        'D',	'2019-02-25'),
@@ -140,3 +144,4 @@ ON offer.StaffID = t.StaffID
 SELECT Year, Semester, Count(*) AS 'Num Enrollments'
 FROM ENROLMENT
 GROUP BY Year, Semester
+
