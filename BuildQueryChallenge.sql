@@ -88,9 +88,9 @@ INSERT INTO SUBJECT
 ('ICTDBS502',   'Design a Database');
 
 INSERT INTO TEACHER 
-(StaffID,   Surname,    GivenName) VALUES
-(98776655,  'Starr',    'Ringo'),
-(87665544,  'Lennon',   'John'),
+(StaffID,   Surname,        GivenName) VALUES
+(98776655,  'Starr',        'Ringo'),
+(87665544,  'Lennon',       'John'),
 (76554433,  'McCartney',    'Paul');
 
 INSERT INTO STUDENT 
@@ -121,6 +121,22 @@ INSERT INTO ENROLMENT
 ('s23344556',	'ICTDBS502',	2021,	2,	        'P',	'2019-07-01'),
 ('s34455667',	'ICTDBS502',	2021,	2,	        'N',    '2019-07-13');
 
-SELECT * FROM STUDENT;
-SELECT * FROM SUBJECT_OFFERING;
-SELECT * FROM ENROLMENT;
+SELECT stu.GivenName, stu.Surname, e.SubjCode, sub.Description, e.Year, e.Semester, offer.Fee, t.GivenName, t.Surname
+FROM STUDENT stu
+INNER JOIN ENROLMENT e
+ON stu.StudentID = e.StudentID
+
+INNER JOIN SUBJECT sub
+ON e.SubjCode = sub.SubjCode
+
+INNER JOIN SUBJECT_OFFERING offer
+ON e.SubjCode = offer.SubjCode
+
+INNER JOIN TEACHER t
+ON offer.StaffID = t.StaffID
+
+
+
+SELECT Year, Semester, Count(*) AS 'Num Enrollments'
+FROM ENROLMENT
+GROUP BY Year, Semester
